@@ -1,0 +1,11 @@
+name: KeepInvReset
+author: LADBukkit
+main: de.ladbukkit.keepinvreset.KeepInvReset
+version: ${version}
+api-version: 1.13
+
+commands:
+  keepinvreset:
+    description: Main command for the KeepInvReset plugin.
+    aliases: [kir]
+    usage: /keepinvreset [number]

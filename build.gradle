@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group 'de.ladbukkit'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+
+processResources {
+    from('res') {
+        include '*/**'
+        filesMatching('**/plugin.yml') {
+            expand(project.properties)
+        }
+    }
+}
+
+dependencies {
+    compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
+}
