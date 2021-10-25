@@ -45,7 +45,7 @@ public class KeepInvResetCommand implements CommandExecutor {
         Player p = (Player) sender;
 
         if(args.length == 0) {
-            if(plugin.getResetted().contains(p)) {
+            if(plugin.getResetted().contains(p) && plugin.getInvResetConfig().getYamlConfig().getInt("resets") > 0) {
                 InventoryFile invFile = new InventoryFile(p.getUniqueId());
                 p.openInventory(invFile.createInventory(plugin.getInvResetConfig().getOldInventoryName(), plugin.getInvResetConfig().getSpacerName()));
             } else {

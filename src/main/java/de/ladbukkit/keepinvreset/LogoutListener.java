@@ -37,7 +37,7 @@ public class LogoutListener implements Listener {
 
         InventoryFile invFile = new InventoryFile(p.getUniqueId());
         try {
-            invFile.save(p.getInventory());
+            invFile.save(p.getInventory(), p.getWorld().getSeed());
         } catch (IOException ex) {
             ex.printStackTrace();
             Bukkit.getLogger().severe("Could not save inventory for " + p.getName());

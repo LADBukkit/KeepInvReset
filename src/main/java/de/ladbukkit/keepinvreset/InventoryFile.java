@@ -2,6 +2,7 @@ package de.ladbukkit.keepinvreset;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
@@ -94,22 +95,40 @@ public class InventoryFile {
     }
 
     /**
+     * Checks the seed against the one in the config.
+     * @param seed The seed to check.
+     * @return if they are the same.
+     */
+    public boolean checkSeed(long seed) {
+        if(!this.file.exists()) return true;
+        return seed == this.config.getLong("seed", 0);
+    }
+
+    /**
      * Saves the given inventory in the file associated with the uuid of this object.
      * @param inv The inventory to save.
      * @throws IOException If the file couldn't be saved.
      */
-    public void save(PlayerInventory inv) throws IOException {
+    public void save(PlayerInventory inv, long seed) throws IOException {
+        this.config.set("seed", seed);
+
         // save offhand
-        this.config.set("offhand", inv.getItemInOffHand());
+        if(!Tag.SHULKER_BOXES.getValues().contains(inv.getItemInOffHand().getType())) {
+            this.config.set("offhand", inv.getItemInOffHand());
+        }
 
         // save armor
         for(int i = 0; i < inv.getArmorContents().length; i++) {
-            this.config.set("armor." + i, inv.getArmorContents()[i]);
+            if(inv.getArmorContents()[i] != null && !Tag.SHULKER_BOXES.getValues().contains(inv.getArmorContents()[i].getType())) {
+                this.config.set("armor." + i, inv.getArmorContents()[i]);
+            }
         }
 
         // save inventory
         for(int i = 0; i < inv.getStorageContents().length; i++) {
-            this.config.set("slot." + i, inv.getStorageContents()[i]);
+            if(inv.getStorageContents()[i] != null && !Tag.SHULKER_BOXES.getValues().contains(inv.getStorageContents()[i].getType())) {
+                this.config.set("slot." + i, inv.getStorageContents()[i]);
+            }
         }
 
         // create file

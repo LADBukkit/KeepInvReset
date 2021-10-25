@@ -34,7 +34,9 @@ public class LoginListener implements Listener {
         Player p = e.getPlayer();
         InventoryFile invFile = new InventoryFile(p.getUniqueId());
 
-        if(!invFile.checkInventory(p.getInventory())) {
+        if(plugin.getInvResetConfig().getYamlConfig().getInt("resets") <= 0) return;
+
+        if(!invFile.checkSeed(p.getWorld().getSeed())) {
             p.sendMessage(plugin.getInvResetConfig().getResetMessage().replace("%resets%", Integer.toString(plugin.getInvResetConfig().getYamlConfig().getInt("resets"))));
             this.plugin.getResetted().add(p);
         }
